@@ -38,20 +38,7 @@ plt.show()                                                                      
 
 output :
 
-pc_name
-Dhubri_Assam             88.35
-Nagaland_Nagaland        87.82
-Tamluk_West Bengal       87.59
-Bishnupur_West Bengal    86.72
-Kanthi_West Bengal       86.61
-dtype: float64
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/a45e2747-4fb9-4c2d-9cf0-a7da52cfc0d7)
 
-pc_name
-Patna Sahib_Bihar            45.33
-Kalyan_Maharashtra           42.88
-Baramulla_Jammu & Kashmir    39.13
-Anantnag_Jammu & Kashmir     28.84
-Srinagar_Jammu & Kashmir     25.86
-dtype: float64
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/5d1da9b2-8e06-44a8-ad7e-e8a12b8f4106)
