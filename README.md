@@ -33,8 +33,8 @@ axes[1].set_title('Bottom 5 constituencies with lowest voter turnout ratio in 20
 axes[1].set_xlabel('Parliamentary Constituency')
 axes[1].set_ylabel('Voter Turnout Ratio (%)')
 plt.tight_layout()                                                                           # Adjusting the layout
-plt.show()                                                                                   # Displaying the plots```
-
+plt.show()                                                                                   # Displaying the plots
+```
 
 output :
 
@@ -55,4 +55,3 @@ Srinagar_Jammu & Kashmir     25.86
 dtype: float64
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/5d1da9b2-8e06-44a8-ad7e-e8a12b8f4106)
-
