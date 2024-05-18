@@ -12,16 +12,22 @@
 voter_turnout_ratio_2014=round(((df_2014.groupby('pc_name').total_votes.sum())/
                            (df_2014.groupby('pc_name').total_electors.max()))*100,2)         # Calculating voter turn out ratio by constituency
 #voter_turnout_ratio_2014
+
 voter_turnout_ratio_sorted_2014 = voter_turnout_ratio_2014.sort_values(ascending=False)      # Sorting voter turn out ratio
+
 top_5_2014 = voter_turnout_ratio_sorted_2014.head(5)                                         # Obtaining top 5 and bottom 5 records
 top_5_2014
+
 bottom_5_2014 = voter_turnout_ratio_sorted_2014.tail(5)
 bottom_5_2014
+
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 6))                                  # Creating a figure with two plots
+
 top_5_2014.plot(kind='bar', ax=axes[0], color='skyblue')                                     # Plotting the top 5 rows
 axes[0].set_title('Top 5 constituencies with highest voter turnout ratio in 2014')
 axes[0].set_xlabel('Parliamentary Constituency')
 axes[0].set_ylabel('Voter Turnout Ratio (%)')
+
 bottom_5_2014.plot(kind='bar', ax=axes[1], color='salmon')                                   # Plotting the bottom 5 rows
 axes[1].set_title('Bottom 5 constituencies with lowest voter turnout ratio in 2014')
 axes[1].set_xlabel('Parliamentary Constituency')
@@ -30,4 +36,23 @@ plt.tight_layout()                                                              
 plt.show()                                                                                   # Displaying the plots```
 
 
+output :
+
+pc_name
+Dhubri_Assam             88.35
+Nagaland_Nagaland        87.82
+Tamluk_West Bengal       87.59
+Bishnupur_West Bengal    86.72
+Kanthi_West Bengal       86.61
+dtype: float64
+
+pc_name
+Patna Sahib_Bihar            45.33
+Kalyan_Maharashtra           42.88
+Baramulla_Jammu & Kashmir    39.13
+Anantnag_Jammu & Kashmir     28.84
+Srinagar_Jammu & Kashmir     25.86
+dtype: float64
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/5d1da9b2-8e06-44a8-ad7e-e8a12b8f4106)
 
