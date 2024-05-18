@@ -1,10 +1,25 @@
-# Election_Data_Analysis 
+# Election_Data_Analysis 📊
 
-**Problem Statement** - AtliQ Media, a private media company wants to telecast a show on Lok Sabha elections in 2024 in India. Unlike other channel they do not want to have debate on who is going to win the elections, they rather wanted to present the insights from 2014 and 2019 elections without any bias and discuss the less explored themes like voter turnout percentage in India.
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/e2b2baf9-fd92-4c75-b0c3-d8ca30f6956b)
 
-**Tools used** - Python for Data cleaning, Exploratory Data Analysis and Data Visualization.
+### Contents 📖
+- Problem statement
+- Tools used
+- Exploring the dataset
+- Data cleaning
+- Data analysis & Visualization
+- Recommendations
 
-**Insights**
+### Problem Statement  
+AtliQ Media, a private media company wants to telecast a show on Lok Sabha elections in 2024 in India. Unlike other channel they do not want to have debate on who is going to win the elections, they rather wanted to present the insights from 2014 and 2019 elections without any bias and discuss the less explored themes like voter turnout percentage in India.
+
+### Tools used 🛠️
+
+- Programming Language: Python
+- Libraries: Pandas, Numpy, Matplotlib, Seaborn
+- IDE: Jupyter Notebook
+
+### Data analysis & visualization
 
 **1. List top 5/bottom 5 constituencies of 2014 and 2019 in terms of voter turnout ratio**  
 
@@ -23,12 +38,12 @@ bottom_5_2014
 
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 6))                                  # Creating a figure with two plots
 
-top_5_2014.plot(kind='bar', ax=axes[0], color='skyblue')                                     # Plotting the top 5 rows
+top_5_2014.plot(kind='bar', ax=axes[0], color='skyblue')                                     # Plotting the top 5 rows with bar chart
 axes[0].set_title('Top 5 constituencies with highest voter turnout ratio in 2014')
 axes[0].set_xlabel('Parliamentary Constituency')
 axes[0].set_ylabel('Voter Turnout Ratio (%)')
 
-bottom_5_2014.plot(kind='bar', ax=axes[1], color='salmon')                                   # Plotting the bottom 5 rows
+bottom_5_2014.plot(kind='bar', ax=axes[1], color='salmon')                                   # Plotting the bottom 5 rows with bar chart
 axes[1].set_title('Bottom 5 constituencies with lowest voter turnout ratio in 2014')
 axes[1].set_xlabel('Parliamentary Constituency')
 axes[1].set_ylabel('Voter Turnout Ratio (%)')
