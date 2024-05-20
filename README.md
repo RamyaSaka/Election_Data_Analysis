@@ -277,6 +277,101 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/61bef1db-8b0e-4ea4-86f6-45b0a4635a63)
 
+**6. % Split of votes of parties between 2014 vs 2019 at national level**
+
+```python
+party_votes_2014_df=df_2014.groupby('party')['total_votes'].sum().reset_index()                   # Calcualting total votes gained by a party
+total_votes_2014=party_votes_2014_df['total_votes'].sum()                                         # Calculating total votes gained by all parties
+party_votes_2014_df['vote_share_2014']=(party_votes_2014_df['total_votes']/total_votes_2014)*100  # Calculating vote share of each party
+sorted_2014_df = party_votes_2014_df.sort_values(by='vote_share_2014', ascending=False).head(10)  # Sorting and filtering first 10 parties 
+
+party_votes_2019_df=df_2019.groupby('party')['total_votes'].sum().reset_index()
+total_votes_2019=party_votes_2019_df['total_votes'].sum()
+party_votes_2019_df['vote_share_2019']=(party_votes_2019_df['total_votes']/total_votes_2019)*100
+sorted_2019_df = party_votes_2019_df.sort_values(by='vote_share_2019', ascending=False).head(10)
+
+# Creating two subplots one for 2014 and other for 2019 showing top 10 parties and their respective vote share
+
+labels_2014 = sorted_2014_df['party']
+sizes_2014 = sorted_2014_df['vote_share_2014']
+
+labels_2019 = sorted_2019_df['party']
+sizes_2019 = sorted_2019_df['vote_share_2019']
+
+colors_2014 = ['skyblue','lightgreen','lightcoral','lightskyblue','lightpink','lightgreen','lightsalmon','lightblue']
+colors_2019 = ['lightcoral','lightskyblue','lightgreen','lightpink','lightblue','lightsalmon','skyblue','lightgreen']
+
+fig, axes = plt.subplots(nrows=1,ncols=2,figsize=(14, 6))                               
+
+axes[0].pie(sizes_2014,labels=labels_2014,autopct='%1.1f%%',pctdistance=0.85,colors=colors_2014)        # Plotting a pie chart
+axes[0].set_title('Vote Share by Party in 2014')
+
+axes[1].pie(sizes_2019,labels=labels_2019,autopct='%1.1f%%',pctdistance=0.85,colors=colors_2019)
+axes[1].set_title('Vote Share by Party in 2019')
+
+plt.tight_layout()                                                                         
+plt.show()
+```
+      
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/bc74e7fb-be3b-4fee-b5de-035d9d39a89a)
+
+**7. % Split of votes of parties between 2014 vs 2019 at state level**
+
+```python
+state_votes_2014_df=df_2014.groupby(['state','party'])['total_votes'].sum().reset_index()                # Calcualting total votes gained by a party
+total_state_votes_2014=state_votes_2014_df['total_votes'].sum()                                          # Calculating total votes gained by all parties
+state_votes_2014_df['vote_share_2014']=(state_votes_2014_df['total_votes']/total_state_votes_2014)*100   # Calculating vote share of each party
+sorted_states_2014_df = state_votes_2014_df.sort_values(by='vote_share_2014', ascending=False).head(20)  # Sorting and filtering parties 
+
+# Creating an interactive horizontal bar chart using Plotly for vote share of parties in 2014
+fig = px.bar(sorted_states_2014_df,x='vote_share_2014',y='state',color='party',             
+             orientation='h',
+             labels={'state': 'State', 'vote_share_2014': 'Vote Share (%)', 'party': 'Party'},
+             title='Vote Share of Parties in Top States in 2014',
+             hover_data={'vote_share_2014': ':.2f'})
+
+fig.update_layout(yaxis={'categoryorder': 'total ascending'},
+                  xaxis=dict(title='Vote Share (%)'),
+                  legend_title='Party')
+fig.show()
+
+state_votes_2019_df=df_2019.groupby(['state','party'])['total_votes'].sum().reset_index()                # Calcualting total votes gained by a party
+total_state_votes_2019=state_votes_2019_df['total_votes'].sum()                                          # Calculating total votes gained by all parties
+state_votes_2019_df['vote_share_2019']=(state_votes_2019_df['total_votes']/total_state_votes_2019)*100   # Calculating vote share of each party
+sorted_states_2019_df = state_votes_2019_df.sort_values(by='vote_share_2019', ascending=False).head(20)  # Sorting and filtering parties
+
+# Creating an interactive horizontal bar chart using Plotly for vote share of parties in 2019
+fig = px.bar(sorted_states_2019_df,x='vote_share_2019',y='state',color='party',             
+             orientation='h',
+             labels={'state': 'State','vote_share_2019': 'Vote Share (%)', 'party': 'Party'},
+             title='Vote Share of Parties in Top States in 2019',
+             hover_data={'vote_share_2019': ':.2f'})
+
+fig.update_layout(yaxis={'categoryorder': 'total ascending'},
+                  xaxis=dict(title='Vote Share (%)'),
+                  legend_title='Party')
+
+fig.show()
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/24e929b7-ad14-4dbf-be70-88115ea1bc44)
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b9c934b7-d979-45c6-9a47-6282b2729418)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
