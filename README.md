@@ -510,6 +510,119 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/79ae50b5-e0d8-4ce8-9422-82d90e322f92)
 
+**12. Is there a correlation between postal votes % and voter turnout % ?**
+
+```python
+postal_votes_by_states_2014=df_2014.groupby('state')['postal_votes'].sum()                            # Caluculating postal votes by states
+#postal_votes_by_states
+total_postal_votes_in_country_2014=df_2014['postal_votes'].sum()                                      # Calculating postal votes by country
+#total_postal_votes_in_country
+postal_votes_pcnt_2014=round((postal_votes_by_states_2014/total_postal_votes_in_country_2014)*100,2)  # Calculating postal votes % by states
+#postal_votes_pcnt_by_states
+
+unique_df_2014 = df_2014.drop_duplicates(subset=['pc_name'])                                          # Dropping duplicate rows based on pc_name 
+#unique_df_2014
+total_electors_by_state_2014 = unique_df_2014.groupby('state')['total_electors'].sum()                # Calculating total electors by state
+#print(total_electors_by_state)
+total_votes_by_states_2014 = df_2014.groupby('state')['total_votes'].sum()                            # Calculating total votes by states
+#total_votes_by_states
+voter_turnout_pcnt_2014=round((total_votes_by_states_2014/total_electors_by_state_2014)*100,2)        # Calculating voter turnout % by states
+#voter_turnout_pcnt_2014
+
+correlation_data_2014 = pd.DataFrame({'Postal Votes (%) 2014': postal_votes_pcnt_2014,  
+                                 'Voter Turnout (%) 2014': voter_turnout_pcnt_2014})                  # Combining the two Series into a DataFrame
+#------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+postal_votes_by_states_2019=df_2019.groupby('state')['postal_votes'].sum()                            # Caluculating postal votes by states
+#postal_votes_by_states
+total_postal_votes_in_country_2019=df_2019['postal_votes'].sum()                                      # Calculating postal votes by country
+#total_postal_votes_in_country
+postal_votes_pcnt_2019=round((postal_votes_by_states_2019/total_postal_votes_in_country_2019)*100,2)  # Calculating postal votes % by states
+#postal_votes_pcnt_by_states
+
+unique_df_2019 = df_2019.drop_duplicates(subset=['pc_name'])                                          # Dropping duplicate rows based on pc_name 
+#unique_df_2019
+total_electors_by_state_2019 = unique_df_2019.groupby('state')['total_electors'].sum()                # Calculating total electors by state
+#print(total_electors_by_state)
+total_votes_by_states_2019 = df_2019.groupby('state')['total_votes'].sum()                            # Calculating total votes by states
+#total_votes_by_states
+voter_turnout_pcnt_2019=round((total_votes_by_states_2019/total_electors_by_state_2019)*100,2)        # Calculating voter turnout % by states
+#voter_turnout_pcnt_2014
+
+correlation_data_2019 = pd.DataFrame({'Postal Votes (%) 2019': postal_votes_pcnt_2019,  
+                                 'Voter Turnout (%) 2019': voter_turnout_pcnt_2019})                  # Combining the two Series into a DataFrame
+#-------------------------------------------------------------------------------------------------------------------------------------------------------#
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 6))                                           # Creating a scatter plot with two subplots
+
+correlation_data_2014.plot(kind='scatter', ax=axes[0], color='blue', x='Postal Votes (%) 2014', y='Voter Turnout (%) 2014')        # Plotting the top 5 rows
+axes[0].set_title('Correlation between Postal Votes (%) and Voter Turnout (%) in 2014')
+axes[0].set_xlabel('Postal Votes (%)')
+axes[0].set_ylabel('Voter Turnout Ratio (%)')
+ 
+correlation_data_2019.plot(kind='scatter', ax=axes[1], color='red', x='Postal Votes (%) 2019', y='Voter Turnout (%) 2019')         # Plotting the bottom 5 rows
+axes[1].set_title('Correlation between Postal Votes (%) and Voter Turnout (%) in 2019')
+axes[1].set_xlabel('Postal Votes (%)')
+axes[1].set_ylabel('Voter Turnout Ratio (%)')
+
+plt.tight_layout()                                                                                                                 # Adjusting the layout
+plt.show()                                                                                                                         # Displaying the plots
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/daaa63af-42bc-4db7-92dc-aa0bcbea1a11)
+
+**13. Is there a correlation between GDP of a state and voter turnout % ?**
+
+```python
+# Correlation data file containing voter turnout percentage is obtained from above
+correlation_data_2019 = pd.DataFrame({'Postal Votes (%) 2019': postal_votes_pcnt_2019,  
+                                 'Voter Turnout (%) 2019': voter_turnout_pcnt_2019}) 
+
+df_gdp=pd.read_csv(r"C:\Users\91961\Downloads\GDP.csv")                                                             # Reading literacy rate file
+
+correlation_by_gdp=pd.merge(correlation_data_2019,df_gdp,on='state')                                                # Merging both files by state
+
+#correlation_by_gdp.plot(kind='scatter', color='blue', x='GDP', y='Voter Turnout (%) 2019')  
+
+sns.heatmap(correlation_by_gdp[['GDP', 'Voter Turnout (%) 2019']].corr(), annot=True, cmap='coolwarm', fmt=".2f")   # Plotting heat map
+plt.title('Correlation Heatmap between GDP and Voter Turnout (%) in 2019')
+plt.show()
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/c552a67c-c938-44d7-b66c-bd90acf6214e)
+
+
+
+
+**14. Is there a correlation between literacy % of the state and voter turnout % ?**
+
+```python
+# Correlation data file containing voter turnout percentage is obtained from above
+correlation_data_2019 = pd.DataFrame({'Postal Votes (%) 2019': postal_votes_pcnt_2019,        
+                                 'Voter Turnout (%) 2019': voter_turnout_pcnt_2019}) 
+
+df_lr=pd.read_csv(r"C:\Users\91961\Downloads\literacy rate.csv")                                              # Reading literacy rate file
+
+correlation_by_literacy_rate=pd.merge(correlation_data_2019,df_lr,on='state')                                 # Merging both files by state 
+
+# Plotting  correlation map
+sns.jointplot(data=correlation_by_literacy_rate,x='literacy_rate',y='Voter Turnout (%) 2019',kind='hist',,height=8,ratio=4)
+plt.title('Correlation between literacy rate (%) and Voter Turnout (%) in 2019')
+plt.xlabel('literacy_rate')
+plt.ylabel('Voter Turnout (%)')
+plt.show()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/f1d57335-ea9e-42ec-bf14-423825e8bdd0)
+
+
+
+
+
 
 
 
