@@ -27,7 +27,7 @@ import pandas as pd                                          # Pandas is a tool 
 import numpy as np                                           # Numpy is a library in python for mathematical functions
 import matplotlib.pyplot as plt                              # Matplotlib library in python for visualizations
 import seaborn as sns                                        # Seaborn is a library in python for statistical graphs 
-import plotly.express as px                                  # Plotly is a library in python for visualizations
+import plotly.express as px                                  # Plotly is a library in python for interactive visualizations
 ```
 
 **2. Reading file which contains 2014 election data**
@@ -99,7 +99,7 @@ Output -
 - Null values in the data can skew the results resulting in inaccurate conclusions.
 - In the process of data cleaning, we can replace the null values with median values in case of numerical values and mode in case of categorical values.
 - We can also delete the rows or columns containing null values if they are not necessary for the analysis.
-- In this project, we are retaining the null values, since those columns re not necessary in our analysis.
+- In this project, we are retaining the null values, since those columns are not used in our analysis.
 
 **7. Obtaining unique values**
 
@@ -163,7 +163,7 @@ for index, row in df_2019.iterrows():                                           
 **10. Obtaining the deecriptive statistics for the dataframe
 
 ```python
-df_2014.describe()                           # describe functionGive details of descriptive statistics of all numerical columns 
+df_2014.describe()                           # describe function provides details of descriptive statistics of all numerical columns 
 ```
 
 Output - 
