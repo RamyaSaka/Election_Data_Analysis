@@ -85,7 +85,7 @@ Output -
 - A column's datatype can be changed if we find that the current data type is not relevant to the values in the column. In this project we are not changing any column's data types since they are already suitable for the values present.
 
 
-  **6.Verifying for all null values in columns**
+**6.Verifying for all null values in columns**
 
 ```python
 df_2014.isnull().sum()                                         # Null vales found in sex, age & category columns because of 'NOTA"
@@ -101,7 +101,7 @@ Output -
 - We can also delete the rows or columns containing null values if they are not necessary for the analysis.
 - In this project, we are retaining the null values, since those columns re not necessary in our analysis.
 
-  **7. Obtaining unique values**
+**7. Obtaining unique values**
 
 ```python
 # Obtaining unique state values and their count
@@ -112,16 +112,63 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b13e3f01-8cce-4313-9a4f-1cfbf87aa557)
 
+**8. Replacing state name for Telengana constituencies in 2014 dataframe**
+
+```python
+# Obtaining constituency names from Telengana state from 2019 dataframe
+df_2019[df_2019['state']=='Telangana']['pc_name'].unique()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b019292e-3ba3-4f14-9bd2-e4ff15062625)
 
 
+```python
+# Replacing the state name as Telegana from Andhra Pradesh to respective constituencies in 2014 dataframe becuase of bifurcation
+
+telangana_pc_names=['Adilabad ', 'Peddapalle ', 'Karimnagar ', 'Nizamabad',
+       'Zahirabad', 'Medak', 'Malkajgiri', 'Secundrabad', 'Hyderabad',
+       'CHEVELLA', 'Mahbubnagar', 'Nagarkurnool', 'Nalgonda', 'Bhongir ',
+       'Warangal', 'Mahabubabad  ', 'Khammam ']
+df_2014.loc[df_2014['pc_name'].isin(telangana_pc_names), 'state'] = 'Telengana'
+df_2014['state'].unique()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b35256ab-7661-4643-aeca-9ca8932243b6)
 
 
+**9. Replacing constituency names** 
 
+```python
+# Few states have same constituency names. So replacing constituency name followed by the respective state name to differentiate
 
+counts = df_2014.groupby('pc_name').size()                                        # Obtaining the count of pc_name by using groupby
 
+for index, row in df_2014.iterrows():                                             # Iterating through the DataFrame and appending the state name
+    if counts[row['pc_name']] > 1:
+        df_2014.at[index, 'pc_name'] = f"{row['pc_name']}_{row['state']}"
+```
 
+```python
+# Few states have same constituency names. So replacing constituency name followed by the respective state name to differentiate
 
+counts = df_2019.groupby('pc_name').size()                                         # Obtaining the count of pc_name by using groupby
 
+for index, row in df_2019.iterrows():                                               # Iterating through the DataFrame and appending the state name
+    if counts[row['pc_name']] > 1:
+        df_2019.at[index, 'pc_name'] = f"{row['pc_name']}_{row['state']}"
+```
+
+**10. Obtaining the deecriptive statistics for the dataframe
+
+```python
+df_2014.describe()                           # describe functionGive details of descriptive statistics of all numerical columns 
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/4e8583ba-000e-40d2-bc84-44febc3ae2b3)
 
 
 ### Data analysis & visualization
