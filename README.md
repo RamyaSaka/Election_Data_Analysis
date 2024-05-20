@@ -5,7 +5,6 @@
 ### Contents 📖
 - Problem statement
 - Tools used
-- Exploring the dataset
 - Data cleaning
 - Data analysis & Visualization
 - Recommendations
@@ -18,6 +17,112 @@ AtliQ Media, a private media company wants to telecast a show on Lok Sabha elect
 - Programming Language: Python
 - Libraries: Pandas, Numpy, Matplotlib, Seaborn
 - IDE: Jupyter Notebook
+
+### Data Cleaning
+
+**1. Importing python libraries**
+
+```python
+import pandas as pd                                          # Pandas is a tool in python for data analysis
+import numpy as np                                           # Numpy is a library in python for mathematical functions
+import matplotlib.pyplot as plt                              # Matplotlib library in python for visualizations
+import seaborn as sns                                        # Seaborn is a library in python for statistical graphs 
+import plotly.express as px                                  # Plotly is a library in python for visualizations
+```
+
+**2. Reading file which contains 2014 election data**
+
+```python
+df_2014=pd.read_csv(r"C:\Users\91961\Downloads\constituency_wise_results_2014.csv")     # reading 2014 file
+df_2014.head(2)                                                                         # displaying 2 records of file
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/eb6112ee-6763-4133-b8e5-5eb1a5de32c4)
+
+
+**3. Reading file which contains 2019 election data**
+
+```python
+df_2019=pd.read_csv(r"C:\Users\91961\Downloads\constituency_wise_results_2019.csv")      # reading 2019 file
+df_2019.head(2)                                                                          # displaying 2 records of file
+```
+Output -
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/f50152ad-5a3d-46ef-8f82-fa22e8ced43b)
+
+
+**4. Reading file which contains state codes**
+
+```python
+df_sc=pd.read_csv(r"C:\Users\91961\Downloads\dim_states_codes.csv")       # Reading state_codes file
+df_sc.head(2)                                                             # displaying 2 records of file
+
+df_sc.rename(columns = {'state_name':'state'}, inplace = True)            # Replacing column name from state_name to state to sync with other files
+df_sc.head(2)                                                             # displaying 2 records of file after changing column name
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/34972ad4-cdde-4da8-b5d6-3a477193bb6d)
+
+- Pandas.```read_csv()``` function is used to load a comma-separated values (CSV) file into a DataFrame object. We have to provide the path where the csv file is stored.
+- Pandas ```head()``` method is used to return top n (5 by default) rows of a data frame or series.
+- ```inplace=True``` is used to make changes to the original data without returning a copy of the data.
+
+
+**5. Checking the datatypes of all columns in 2014 and 2019 files**
+
+```python
+df_2014.dtypes                                                 # Obtaining data types of all columns of 2014 file
+df_2019.dtypes                                                 # Obtaining data types of all columns of 2019 file
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/891950eb-d37b-4ca3-b300-7abb6b2adf1c)
+
+- In the process of data cleaning, it is essential to check the data types of all columns. dtypes is used to find out the data type (dtype) of each column in the given DataFrame
+- A column's datatype can be changed if we find that the current data type is not relevant to the values in the column. In this project we are not changing any column's data types since they are already suitable for the values present.
+
+
+  **6.Verifying for all null values in columns**
+
+```python
+df_2014.isnull().sum()                                         # Null vales found in sex, age & category columns because of 'NOTA"
+df_2019.isnull().sum()                                         # Null vales found in sex, age, category & party_symbol columns because of 'NOTA"
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/e45f65aa-b525-4109-bd43-a72a9d64f227)
+
+- Null values in the data can skew the results resulting in inaccurate conclusions.
+- In the process of data cleaning, we can replace the null values with median values in case of numerical values and mode in case of categorical values.
+- We can also delete the rows or columns containing null values if they are not necessary for the analysis.
+- In this project, we are retaining the null values, since those columns re not necessary in our analysis.
+
+  **7. Obtaining unique values**
+
+```python
+# Obtaining unique state values and their count
+df_2014['state'].nunique()                       # nunique is used to obtain count of unique values in a column in dataframe
+df_2014['state'].unique()                        # unique is used to obtain unique values in a column in dataframe
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b13e3f01-8cce-4313-9a4f-1cfbf87aa557)
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Data analysis & visualization
 
