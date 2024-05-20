@@ -362,6 +362,163 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b9c934b7-d979-45c6-9a47-6282b2729418)
 
+**8. List top 5 constituencies for two major national parties where they have gained vote share in 2019 as compared to 2014**
+
+```python
+national_parties = ['BJP', 'INC']    # Two major national parties
+
+# Grouping by parliamentary constituency and party for both 2014 and 2019 by total votes
+party_votes_2014 = df_2014.groupby(['pc_name', 'party'])['total_votes'].sum().unstack(fill_value=0)
+party_votes_2019 = df_2019.groupby(['pc_name', 'party'])['total_votes'].sum().unstack(fill_value=0)
+
+# Calculating vote share gained for each party from 2014 to 2019
+vote_share_gained = party_votes_2019 - party_votes_2014
+
+# Filtering records for only the two major national parties
+national_party_votes_2014 = vote_share_gained[national_parties]
+
+# Finding top 5 constituencies where each party gained vote share
+top_constituencies_party1 = national_party_votes_2014.sort_values(by='BJP', ascending=False).head(5)
+top_constituencies_party2 = national_party_votes_2014.sort_values(by='INC', ascending=False).head(5)
+
+print("Top 5 constituencies where BJP gained vote share:")
+print(top_constituencies_party1)
+
+print("\nTop 5 constituencies where INC gained vote share:")
+print(top_constituencies_party2)
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/b27d0bad-b902-4a73-a4d2-fe3a452b5b96)
+
+```python
+# Plotting horizontal bar chart for top 5 Constituencies where BJP Gained Vote Share
+plt.figure(figsize=(10, 6))
+plt.barh(top_constituencies_party1.index, top_constituencies_party1['BJP'], color='turquoise')
+plt.xlabel('Vote Share Gained')
+plt.title('Top 5 Constituencies where BJP Gained Vote Share')
+plt.gca().invert_yaxis()                                                                    # Inverting y-axis to display top constituencies at the top
+plt.show()
+
+# Plotting horizontal bar chart for top 5 Constituencies where INC Gained Vote Share
+plt.figure(figsize=(10, 6))
+plt.barh(top_constituencies_party2.index, top_constituencies_party2['INC'], color='pink')
+plt.xlabel('Vote Share Gained')
+plt.title('Top 5 Constituencies where INC Gained Vote Share')
+plt.gca().invert_yaxis() 
+plt.show()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/4cc0345c-66a1-4124-ba3c-072d2e2f3cee)
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/7a22dec6-045e-4814-9d1d-74e7f9039ca3)
+
+**9. List top 5 constituencies for two major national parties where they have lost vote share in 2019 as compared to 2014**
+
+```python
+national_parties = ['BJP', 'INC']  
+
+# Grouping by parliamentary constituency and party for both 2014 and 2019
+party_votes_2014 = df_2014.groupby(['pc_name', 'party'])['total_votes'].sum().unstack(fill_value=0)
+party_votes_2019 = df_2019.groupby(['pc_name', 'party'])['total_votes'].sum().unstack(fill_value=0)
+
+# Calculating vote share change for each party from 2014 to 2019
+vote_share_change = party_votes_2019 - party_votes_2014
+
+# Filtering out rows where the vote share change is positive or zero replacing them with null values
+vote_share_change[vote_share_change >= 0] = np.nan
+
+# Filtering rows for only the two major national parties
+national_party_votes_lost = vote_share_change[national_parties]
+
+# Finding top 5 constituencies where each party lost vote share
+top_constituencies_party1_lost = national_party_votes_lost.sort_values(by='BJP', ascending=True).head(5)
+top_constituencies_party2_lost = national_party_votes_lost.sort_values(by='INC', ascending=True).head(5)
+
+print("Top 5 constituencies where BJP lost vote share:")
+print(top_constituencies_party1_lost)
+
+print("\nTop 5 constituencies where INC lost vote share:")
+print(top_constituencies_party2_lost)
+```
+
+Ouput - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/369fbddf-37c6-4805-b3e9-4e2f8b3cd5f5)
+
+```python
+# Plot horizontal bar chart for top 5 constituencies where BJP Lost Vote Share
+plt.figure(figsize=(10, 6))
+plt.barh(top_constituencies_party1_lost.index, top_constituencies_party1_lost['BJP'], color='turquoise')
+plt.xlabel('Vote Share Lost')
+plt.ylabel('Constituency')
+plt.title('Top 5 Constituencies where BJP Lost Vote Share')
+plt.gca().invert_yaxis()                                                           # Invert y-axis to display top constituencies at the top
+plt.show()
+
+# Plot horizontal bar chart for top 5 constituencies where BJP Lost Vote Share
+plt.figure(figsize=(10, 6))
+plt.barh(top_constituencies_party2_lost.index, top_constituencies_party2_lost['INC'], color='pink')
+plt.xlabel('Vote Share Lost')
+plt.ylabel('Constituency')
+plt.title('Top 5 Constituencies where INC Lost Vote Share')
+plt.gca().invert_yaxis()                                                            # Invert y-axis to display top constituencies at the top
+plt.show()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/6fbbbb89-1647-4ffa-a8f6-ec4c81b79f21)
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/41f4d275-b110-4e58-9dce-e3b0d3846a5a)
+
+**10. Which constituency has voted the most for NOTA?**
+
+```python
+filtered_df = df_2014[df_2014['candidate'] == 'None of the Above']                 # Filtering DataFrame to select  rows where candidate is 'NOTA'
+
+sorted_df = filtered_df.sort_values(by='total_votes', ascending=False).head(10)    # Sorting the filtered DataFrame by total_votes in descending order
+                                                      
+fig = px.bar(sorted_df, x='pc_name', y='total_votes', 
+             text='total_votes', height=500,                                     
+             title='Total NOTA votes per constituency in 2014')                    # Paasing slice of sorted dataframe to plot bar chart
+
+fig.update_traces(textposition='inside')                                           # Placing the labels inside the bars.
+
+fig.show()                                                                         # Displaying the bar chart
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/f63f925d-213f-4cf5-885e-d2631020b4d6)
+
+```python
+filtered_df = df_2019[df_2019['candidate'] == 'NOTA']                              # Filtering DataFrame to select  rows where candidate is 'NOTA'
+
+sorted_df = filtered_df.sort_values(by='total_votes', ascending=False)             # Sorting the filtered DataFrame by total_votes in descending order
+
+num_bars_to_display = 10                                                           # To display top 10 records
+
+fig = px.bar(sorted_df[:num_bars_to_display], x='pc_name', y='total_votes', 
+             text='total_votes', height=500,                                     
+             title='Total NOTA votes per constituency in 2019')                    # Paasing slice of sorted dataframe to plot bar chart
+
+fig.update_traces(textposition='inside')                                           # Placing the labels inside the bars.
+
+fig.show()                                                                         # Displaying the bar chart
+```
+Output -
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/79ae50b5-e0d8-4ce8-9422-82d90e322f92)
+
+
+
+
+
+
+
+
+
+
 
 
 
