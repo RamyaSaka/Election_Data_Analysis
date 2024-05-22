@@ -99,7 +99,7 @@ Output -
 - Null values in the data can skew the results resulting in inaccurate conclusions.
 - In the process of data cleaning, we can replace the null values with median values in case of numerical values and mode in case of categorical values.
 - We can also delete the rows or columns containing null values if they are not necessary for the analysis.
-- In this project, we are retaining the null values, since those columns are not used in our analysis.
+- In this project, we are retaining the null values, since those rows belong to NOTA category.
 
 **7. Obtaining unique values**
 
