@@ -336,6 +336,36 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/c3e3e63f-fe15-488b-803e-74a76ff912c9)
 
+**Creating a choropleth map to show voter turnout ration per states in 2019
+
+```python
+#Reading indian states shape file
+shp_gdf = gpd.read_file('/kaggle/input/india-states/Indian_states.shp')  
+#shp_gdf.head()
+
+#Converting voter turn out ratio series into a dataframe with columns state & voter turnout ratio
+df_sorted = pd.DataFrame({"State": voter_turnout_ratio_2019_sorted.index, "Voter Turnout Ratio": voter_turnout_ratio_2019_sorted.values})
+#print(df_sorted.head())
+
+merging shape df and voter turnout ration df using state column
+merged = shp_gdf.set_index('st_nm').join(df_sorted.set_index('State'))
+#merged.head()
+
+#Plotting choropleth map
+fig, ax = plt.subplots(1, figsize=(12, 12))
+ax.axis('off')
+ax.set_title('Voter turnout ratio per state in 2019',
+             fontdict={'fontsize': '15', 'fontweight' : '3'})
+fig = merged.plot(column='Voter Turnout Ratio', cmap='GnBu', linewidth=0.5, ax=ax, edgecolor='0.2',legend=True)
+plt.show()
+```
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/a1e36981-2d31-4897-814a-8b43f490b3a7)
+
+
+
+
 **3. Which constituencies have elected the same party for two consecutive elections, rank them by % of votes to that winning party in 2019**
 
 ```python
@@ -428,6 +458,36 @@ plt.show()
 Output - 
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/61bef1db-8b0e-4ea4-86f6-45b0a4635a63)
+
+**5. Top 5 candidates based on margin difference with runners in 2014 and 2019.**
+
+```python
+# Creating copies of the dataframes
+df_2014_margin_difference = df_2014.copy()
+df_2019_margin_difference = df_2019.copy()
+
+# Calculating margin difference for each candidate in 2014 by constituency
+df_2014_margin_difference['margin_difference_2014'] = df_2014.groupby('pc_name')['total_votes'].transform(lambda x: x.max() - x.shift(-1))
+
+# Calculating margin difference for each candidate in 2019 by constituency
+df_2019_margin_difference['margin_difference_2019'] = df_2019.groupby('pc_name')['total_votes'].transform(lambda x: x.max() - x.shift(-1))
+
+# Sorting candidates based on margin difference in 2014
+top_candidates_2014 = df_2014_margin_difference.sort_values(by='margin_difference_2014', ascending=False).head(5)
+
+# Sorting candidates based on margin difference in 2019
+top_candidates_2019 = df_2019_margin_difference.sort_values(by='margin_difference_2019', ascending=False).head(5)
+
+print("Top 5 Candidates based on Margin Difference in 2014:")
+print(top_candidates_2014[['pc_name', 'candidate', 'party', 'margin_difference_2014']])
+print("\nTop 5 Candidates based on Margin Difference in 2019:")
+print(top_candidates_2019[['pc_name', 'candidate', 'party', 'margin_difference_2019']])
+```
+
+Output - 
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/6b692ba5-46bc-4e2f-9e7d-953c69f96ffa)
+
+
 
 **6. % Split of votes of parties between 2014 vs 2019 at national level**
 
