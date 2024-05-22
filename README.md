@@ -441,7 +441,7 @@ Output -
 
 ```python
 #Plotting percentage Change in Votes from 2014 to 2019 by Constituency-Party Pair
-filtered_ranked2_df=different_ranked_df.head(30)                                                     # Filtering first 30 rows
+filtered_ranked2_df=different_ranked_df.head(10)                                                     # Filtering first 30 rows
 
 labels = [f"{constituency}-{party}" for constituency, party in 
           zip(filtered_ranked2_df['pc_name'], filtered_ranked2_df['party_2014'])]                    # Concatenating constituency and party for labels
@@ -458,7 +458,7 @@ plt.show()
 ```
 Output - 
 
-![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/61bef1db-8b0e-4ea4-86f6-45b0a4635a63)
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/8ff76833-8864-4375-9e09-f241e5c7aada)
 
 
 **5. Top 5 candidates based on margin difference with runners in 2014 and 2019**
@@ -875,6 +875,44 @@ plt.show()
 Output - 
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/f1d57335-ea9e-42ec-bf14-423825e8bdd0)
+
+
+**15.Candidates ratio based on gender in 2014 and 2019**
+
+```python
+male_count_2014=(df_2014['sex']=='M').sum()
+female_count_2014=(df_2014['sex']=='F').sum()
+
+male_count_2019=(df_2019['sex']=='MALE').sum()
+female_count_2019=(df_2019['sex']=='FEMALE').sum()
+
+
+y_2014=np.array([male_count_2014,female_count_2014])
+y_2019=np.array([male_count_2019,female_count_2019])
+
+pie_labels = ["MALE","FEMALE"]
+explodeTuple = (0.1, 0.0)
+
+clrs_2014=['blue','lightblue']
+clrs_2019=['red','salmon']
+
+fig, axes = plt.subplots(nrows=1,ncols=2,figsize=(14, 6))                               
+
+axes[0].pie(y_2014,explode=explodeTuple, labels = pie_labels, startangle = 90,autopct='%1.1f%%',pctdistance=0.85,colors=clrs_2014)        # Plotting a pie chart
+axes[0].set_title('Male vs Female ratio in 2014')
+
+axes[1].pie(y_2019,explode=explodeTuple, labels = pie_labels, startangle = 90,autopct='%1.1f%%',pctdistance=0.85,colors=clrs_2019)
+axes[1].set_title('Male vs Female ratio in 2019')
+
+plt.tight_layout()                                                                         
+plt.show()
+```
+
+Output -   
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/cb028391-56e2-44ae-967e-717af4d408b2)
+
+
 
 
 
