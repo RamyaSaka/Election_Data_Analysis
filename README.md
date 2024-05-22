@@ -332,9 +332,10 @@ plt.show()                                                                      
 
 Output - 
 
-![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/18fcd2e9-2d43-41c1-bb7d-baf1f815c873)
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/965c3a2d-28af-4773-ab58-d945aca8b757)
 
-![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/c3e3e63f-fe15-488b-803e-74a76ff912c9)
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/95a4338c-a583-430c-8926-4738ce2ce17f)
+
 
 **Creating a choropleth map to show voter turnout ration per states in 2019
 
