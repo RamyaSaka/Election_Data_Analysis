@@ -459,33 +459,42 @@ Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/61bef1db-8b0e-4ea4-86f6-45b0a4635a63)
 
-**5. Top 5 candidates based on margin difference with runners in 2014 and 2019.**
+
+**5. Top 5 candidates based on margin difference with runners in 2014 and 2019**
 
 ```python
-# Creating copies of the dataframes
-df_2014_margin_difference = df_2014.copy()
-df_2019_margin_difference = df_2019.copy()
+# Calculating the margin difference between the winner and runner for each constituency in 2014
+winner_runner_margin_2014 = df_2014.groupby('pc_name').apply(lambda x: x.nlargest(2, 'total_votes', 'all')).reset_index(drop=True)
+winner_runner_margin_2014['margin_difference'] = winner_runner_margin_2014.groupby('pc_name')['total_votes'].diff().abs()
 
-# Calculating margin difference for each candidate in 2014 by constituency
-df_2014_margin_difference['margin_difference_2014'] = df_2014.groupby('pc_name')['total_votes'].transform(lambda x: x.max() - x.shift(-1))
+# Sorting candidates based on margin difference and selecting top 5 candidates
+top_5_candidates_2014 = winner_runner_margin_2014.nlargest(5, 'margin_difference')
 
-# Calculating margin difference for each candidate in 2019 by constituency
-df_2019_margin_difference['margin_difference_2019'] = df_2019.groupby('pc_name')['total_votes'].transform(lambda x: x.max() - x.shift(-1))
+print("Top 5 candidates based on margin difference with runners in 2014:")
+print(top_5_candidates_2014[['pc_name', 'candidate', 'party', 'total_votes', 'margin_difference']])
 
-# Sorting candidates based on margin difference in 2014
-top_candidates_2014 = df_2014_margin_difference.sort_values(by='margin_difference_2014', ascending=False).head(5)
+#------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-# Sorting candidates based on margin difference in 2019
-top_candidates_2019 = df_2019_margin_difference.sort_values(by='margin_difference_2019', ascending=False).head(5)
+# Calculating the margin difference between the winner and runner for each constituency in 2019
+winner_runner_margin_2019 = df_2019.groupby('pc_name').apply(lambda x: x.nlargest(2, 'total_votes', 'all')).reset_index(drop=True)
+winner_runner_margin_2019['margin_difference'] = winner_runner_margin_2019.groupby('pc_name')['total_votes'].diff().abs()
 
-print("Top 5 Candidates based on Margin Difference in 2014:")
-print(top_candidates_2014[['pc_name', 'candidate', 'party', 'margin_difference_2014']])
-print("\nTop 5 Candidates based on Margin Difference in 2019:")
-print(top_candidates_2019[['pc_name', 'candidate', 'party', 'margin_difference_2019']])
+# Sorting candidates based on margin difference and selecting top 5 candidates
+top_5_candidates_2019 = winner_runner_margin_2019.nlargest(5, 'margin_difference')
+
+print("Top 5 candidates based on margin difference with runners in 2019:")
+print(top_5_candidates_2019[['pc_name', 'candidate', 'party', 'total_votes', 'margin_difference']])
 ```
 
 Output - 
-![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/6b692ba5-46bc-4e2f-9e7d-953c69f96ffa)
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/1d3d303b-ca1f-4fb8-ae11-e033993ce87e)
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/8f44ebbb-c056-4a0d-b185-4f5d6f384789)
+
+
+
+
 
 
 
@@ -721,6 +730,41 @@ fig.show()                                                                      
 Output -
 
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/79ae50b5-e0d8-4ce8-9422-82d90e322f92)
+
+
+**11. Which constituencies have elected candidates whose party has less than 10% vote share at state level in 2019**
+
+```python
+# Calculating total votes cast for each party in each constituency
+party_votes = df_2019.groupby(['pc_name', 'party'])['total_votes'].sum().reset_index()
+
+# Determining the winning party for each constituency
+winning_party_indices = party_votes.groupby('pc_name')['total_votes'].idxmax()
+winning_party = party_votes.loc[winning_party_indices]
+
+# Calculating total votes cast in each constituency
+total_votes_per_constituency = df_2019.groupby('pc_name')['total_votes'].sum().reset_index()
+
+# Merging the two DataFrames to calculate percentage vote share for the winning party in each constituency
+winning_party = winning_party.merge(total_votes_per_constituency,on='pc_name',suffixes=('_party', '_total'))
+
+# Calculating percentage vote share for the winning party in each constituency
+winning_party['vote_share_percentage'] =(winning_party['total_votes_party']/winning_party['total_votes_total'])*100
+
+# Identifying the constituencies where the winning party's vote share is less than 10% at the state level
+constituencies_less_than_10_percent = winning_party[winning_party['vote_share_percentage'] < 10]['pc_name'].unique()
+
+print("Constituencies where the winning party's vote share is less than 10% at the state level in 2019:")
+print(constituencies_less_than_10_percent)
+```
+
+Output - 
+
+![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/d7bc035c-b2fa-4f4e-9287-0174d1072a00)
+
+No constituency has winning party vote share less than 10% at state level in 2019.
+
+
 
 **12. Is there a correlation between postal votes % and voter turnout % ?**
 
