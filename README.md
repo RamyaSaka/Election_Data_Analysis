@@ -913,6 +913,22 @@ Output -
 ![image](https://github.com/RamyaSaka/Election_Data_Analysis/assets/121084757/cb028391-56e2-44ae-967e-717af4d408b2)
 
 
+## Observations
+
+- Highest voter turnout ratio is seen in North eastern states whereas lowest in Jammu & Kashmir.
+- BJP party has highest percentage of vote share followed by INC.
+- Highest NOTA votes were polled in tribal areas like Nilgiris, Aruku.
+- Male candidates are participating more on elections  compared to female candidates.
+
+## Recommendations 
+
+- Increase in security, curbing fake news in social media to increase voter turnout ratio in riots prone areas like Jammu & Kashmir.
+- Voter awareness programmes should be conducted in tribal areas by government using political parties, celebrities, influencers.
+- Right to reject for NOTA votes.
+- Home voting for people with disabilities and people above the age of 85 years is a positive move, steps to increase  NRI votes should be taken.
+  
+
+
 
 
 
