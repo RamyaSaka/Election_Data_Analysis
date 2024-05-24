@@ -28,6 +28,7 @@ import numpy as np                                           # Numpy is a librar
 import matplotlib.pyplot as plt                              # Matplotlib library in python for visualizations
 import seaborn as sns                                        # Seaborn is a library in python for statistical graphs 
 import plotly.express as px                                  # Plotly is a library in python for interactive visualizations
+import geopandas as gpd                                      # Geopandas is a python library to support geospatial data
 ```
 
 **2. Reading file which contains 2014 election data**
